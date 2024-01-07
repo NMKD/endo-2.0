@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int               @id @default(autoincrement())
+  name            String
+  role            Role              @default(USER)
+  department      Department        @relation(fields: [departmentId], references: [id])
+  departmentId    Int
+  historyResearch HistoryResearch[]
+  circles         Circle[]
+
+  @@map("users")
+}
+
+model Department {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  user      User[]
+  endoscope Endoscope[]
+
+  @@map("departments")
+}
+
+model Endoscope {
+  id               Int               @id @default(autoincrement())
+  name             String
+  temp_cirles_test Int               @default(10)
+  isActive         Boolean           @default(false)
+  historyResearch  HistoryResearch[]
+  kind             Kind?             @relation(fields: [kindId], references: [id])
+  kindId           Int?
+  manufacturer     Manufacturer?     @relation(fields: [manufacturerId], references: [id])
+  manufacturerId   Int?
+  department       Department?       @relation(fields: [departmentId], references: [id])
+  departmentId     Int?
+  store            Store[]
+
+  @@map("endoscopes")
+}
+
+model Kind {
+  id         Int         @id @default(autoincrement())
+  endoscopes Endoscope[]
+  name       String
+}
+
+model Manufacturer {
+  id         Int         @id @default(autoincrement())
+  endoscopes Endoscope[]
+  name       String
+}
+
+model Facility {
+  id            Int     @id @default(autoincrement())
+  name          String
+  dvu           Boolean @default(false)
+  concentration String
+
+  @@map("facilities")
+}
+
+model HistoryResearch {
+  id              Int                      @id @default(autoincrement())
+  date_research   DateTime                 @default(now())
+  patientId       String                   @unique
+  endoscope       Endoscope                @relation(fields: [endoscopeId], references: [id])
+  endoscopeId     Int
+  transactions    Boolean
+  user            User?                    @relation(fields: [userId], references: [id])
+  userId          Int?
+  test            Boolean
+  cleaning        HistoryFinalCleaning[]
+  manualCleaning  HistoryManualCleaning[]
+  machineCleaning HistoryMachineCleaning[]
+
+  @@map("researchs")
+}
+
+model HistoryFinalCleaning {
+  id                Int              @id @default(autoincrement())
+  start_time        DateTime         @default(now())
+  end_time          DateTime         @updatedAt
+  test              Boolean          @default(false)
+  facilityId        Int?
+  historyResearch   HistoryResearch? @relation(fields: [historyResearchId], references: [id])
+  historyResearchId Int?
+}
+
+model HistoryManualCleaning {
+  id                    Int              @id @default(autoincrement())
+  temperature           Int
+  solutionConcentration String
+  start_time            DateTime         @default(now())
+  end_time              DateTime         @updatedAt
+  facilityId            Int?
+  historyResearch       HistoryResearch? @relation(fields: [historyResearchId], references: [id])
+  historyResearchId     Int?
+}
+
+model HistoryMachineCleaning {
+  id                    Int              @id @default(autoincrement())
+  solutionConcentration String
+  numberMdm             Int
+  circle                DateTime         @updatedAt
+  start_time            DateTime         @default(now())
+  end_time              DateTime         @updatedAt
+  processingMode        Int
+  facilityId            Int?
+  historyResearch       HistoryResearch? @relation(fields: [historyResearchId], references: [id])
+  historyResearchId     Int?
+}
+
+model Store {
+  id           Int        @id @default(autoincrement())
+  date_start   DateTime   @default(now())
+  endoscope    Endoscope? @relation(fields: [endoscopeId], references: [id])
+  endoscopeId  Int?       @unique
+  number_store Int        @default(1)
+}
+
+model Circle {
+  id                      Int       @id @default(autoincrement())
+  user                    User?     @relation(fields: [userId], references: [id])
+  userId                  Int?
+  endoscopeId             Int?      @unique
+  isBooking               Boolean   @default(false)
+  isResearch              Boolean   @default(false)
+  isCleanigFinal          Boolean   @default(false)
+  isWashingManual         Boolean   @default(false)
+  isWashingMachine        Boolean   @default(false)
+  historyResearchId       Int?      @unique
+  patientId               String?   @unique
+  dateStartReserach       DateTime?
+  dateStartCleaningFinal  DateTime?
+  dateStartWashingManual  DateTime?
+  dateStartWashingMachine DateTime?
+
+  @@map("circles")
+}
+
+enum Role {
+  USER
+  ADMIN
+  TECH
+  DOCTOR
+}
