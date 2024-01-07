@@ -9,8 +9,8 @@ import {
 } from "@/lib/prisma.services";
 import { Endoscopes } from "./components";
 import { Suspense } from "react";
-import Loader from "@/app/components/loader";
-import { TNullNumber, TNullString } from "../interfaces.props";
+import Loader from "@/components/loader";
+import { TNullNumber, TNullString } from "../../../interfaces.props";
 
 export default async function EndoscopesOfUserPage() {
   const user: any = await getCurrentUser(1);

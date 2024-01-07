@@ -2,6 +2,7 @@
 import { siteConfig } from "@/config/site";
 import { UserSlice } from "@/lib/createCircleUserSlice";
 import { Button, Input } from "@nextui-org/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 function SignIn({
@@ -9,6 +10,7 @@ function SignIn({
 }: {
   getUser: (id: number) => Promise<UserSlice | null>;
 }) {
+  const router = useRouter();
   const [err, setError] = useState("");
   async function fetchUser(formData: FormData) {
     const id = formData.get("userId");
@@ -20,7 +22,8 @@ function SignIn({
       return setError("Пользователь не зарегистрирован");
     }
     setError("Все получилось!");
-    console.log(`${siteConfig.routes.user}${user.id}`);
+    ("use server");
+    router.push(`${siteConfig.routes.user}${user.id}/circles`);
   }
   return (
     <>

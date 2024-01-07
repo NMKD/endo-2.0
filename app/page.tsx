@@ -3,7 +3,7 @@ import SignIn from "../components/signIn";
 import { UserSlice } from "./interfaces.props";
 
 export default function Home() {
-  async function getUser(id: number): Promise<UserSlice | null>{
+  async function getUser(id: number): Promise<UserSlice | null> {
     "use server";
     return await getCurrentUser(id);
   }

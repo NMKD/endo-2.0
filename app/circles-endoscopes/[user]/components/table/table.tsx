@@ -10,23 +10,14 @@ import {
   TableCell,
   Button,
 } from "@nextui-org/react";
-import { EndoscopeFormat, columns } from "@/lib/interface.data";
+import { EndoscopeFormat, UserProps, columns } from "@/lib/interface.data";
 import { createBookingUser } from "@/lib/prisma.services";
-import { Circle } from "@prisma/client";
-
-interface UserProp {
-  circles?: Circle[];
-  id: number;
-  name: string;
-  role: string;
-  departmentId: number;
-}
 
 export default function TableData({
   user,
   dataEndoscopes,
 }: {
-  user: UserProp;
+  user: UserProps;
   dataEndoscopes: EndoscopeFormat[];
 }) {
   const onClickButton = useCallback(

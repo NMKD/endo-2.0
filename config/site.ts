@@ -4,29 +4,28 @@ export const siteConfig = {
   navItems: [
     {
       label: "Эндоскопия",
-      href: "/endoscopes",
+      href: "/circles-endoscopes/",
     },
     {
       label: "Мои эндоскопы",
-      href: "/user",
+      href: "/circles-endoscopes/",
     },
   ],
   navMenuItems: [
     {
       label: "Эндоскопия",
-      href: "/endoscopes",
+      href: "/circles-endoscopes/",
     },
     {
       label: "Мои эндоскопы",
-      href: "/user",
+      href: "/circles-endoscopes/",
     },
     {
       label: "Log out",
       href: "/",
     },
   ],
-  links: {},
   routes: {
-    user: "endoscopes/",
+    user: "/circles-endoscopes/",
   },
 };

@@ -1,5 +1,5 @@
-import { TableData } from "@/app/(site)/endoscopes/components";
-import Loader from "@/app/components/loader";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Loader from "@/components/loader";
 import { EndoscopeFormat } from "@/lib/interface.data";
 
 import {
@@ -14,6 +14,7 @@ import {
 
 import { formatDataEndoscopes } from "@/lib/utils";
 import { Suspense } from "react";
+import TableData from "./components/table/table";
 
 export default async function EndoscopesPage() {
   const endoscopes = await getEndoscopesStore();
@@ -27,7 +28,7 @@ export default async function EndoscopesPage() {
     kinds,
     manufacturers
   );
-  const user = await getCurrentUser(1);
+  const user: any = await getCurrentUser(1);
   return (
     <div className="max-w-7xl pt-16">
       <Suspense fallback={<Loader />}>

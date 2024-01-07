@@ -11,7 +11,7 @@ import {
   //   getCurrentUser,
 } from "./prisma.services";
 import { Circle } from "@prisma/client";
-import { TNullNumber, TNullString } from "../app/(site)/interfaces.props";
+import { TNullNumber, TNullString } from "../app/interfaces.props";
 
 export interface UserSlice {
   circles?: Circle[];
