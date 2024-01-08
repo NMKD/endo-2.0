@@ -1,4 +1,4 @@
-import { TNullString } from "@/app/(site)/interfaces.props";
+import { TNullString } from "@/app/interfaces.props";
 import { formatDateToTimeLocal } from "@/lib/utils";
 import {
   Card,
@@ -61,7 +61,9 @@ const CleaningMl = ({
         }
       });
     }
-    return <h2>У вас нет эндоскопов на мойке</h2>;
+    return (
+      <h2 className="text-center text-xl">У вас нет эндоскопов на мойке</h2>
+    );
   };
   return <>{renderCleaningManual()}</>;
 };

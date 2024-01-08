@@ -11,44 +11,55 @@ import { Endoscopes } from "./components";
 import { Suspense } from "react";
 import Loader from "@/components/loader";
 import { TNullNumber, TNullString } from "../../../interfaces.props";
+import { Circle } from "@prisma/client";
 
-export default async function EndoscopesOfUserPage() {
-  const user: any = await getCurrentUser(1);
-  console.log(user);
+export default async function EndoscopesOfUserPage({
+  params,
+}: {
+  params: { user: string };
+}) {
+  const user = await getCurrentUser(Number(params.user));
 
   const toResearch = async (
     id: TNullNumber,
     userId: TNullNumber
-  ): Promise<void> => {
+  ): Promise<Circle | undefined> => {
     "use server";
-    await createResearch(id, userId);
     console.log(`id endoscope: ${id}`, `user id: ${userId}`);
+    const circlesUser = await createResearch(id, userId);
+    if (circlesUser) {
+      return circlesUser;
+    }
   };
-  const toCleaning = async (id: TNullString): Promise<void> => {
+  const toCleaning = async (pcId: TNullString): Promise<Circle | undefined> => {
     "use server";
-    await createCleaning(id);
-    console.log(`Create history of final cleaning, pass patient id: ${id}`);
+    console.log(`Create history of final cleaning, patient id: ${pcId}`);
+    return await createCleaning(pcId);
   };
   const toEndWashingMch = async (
     id: TNullString,
     idh: TNullNumber
-  ): Promise<void> => {
+  ): Promise<Circle | undefined> => {
     "use server";
-    await createCleaningMachine(id, idh);
-    console.log(`createCleaningManual, patient id: ${id}, ${idh}`);
+    console.log(
+      `createCleaningManual, patient id: ${id}, History Research ID ${idh}`
+    );
+    return await createCleaningMachine(id, idh);
   };
   const toEndWashingMl = async (
     id: TNullString,
-    idp: TNullNumber
-  ): Promise<void> => {
+    idh: TNullNumber
+  ): Promise<Circle | undefined> => {
     "use server";
-    await createCleaningManual(id, idp);
-    console.log(`toEndWashingMch, patient id: ${id} ${idp}`);
+    console.log(
+      `toEndWashingMch, patient id: ${id} , History Research ID ${idh}`
+    );
+    return await createCleaningManual(id, idh);
   };
   const toStore = async (id: TNullString): Promise<void> => {
     "use server";
+    console.log(`To end circle, endoscope ID: ${id}`);
     await createStore(id);
-    console.log(`id endoscope: ${id}`);
   };
   return (
     <main>

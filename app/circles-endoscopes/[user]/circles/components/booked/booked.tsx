@@ -17,15 +17,29 @@ const Booked = ({
 }: {
   researchs: Circle[];
   name: string;
-  toResearch: (endId: TNullNumber, userId: TNullNumber) => Promise<void>;
+  toResearch: (
+    id: TNullNumber,
+    userId: TNullNumber
+  ) => Promise<Circle | undefined>;
   setResearch: (arr: Circle[]) => void;
 }) => {
-  const onClickButton = (id: TNullNumber, userId: TNullNumber) => {
+  const onClickButton = async (id: TNullNumber, userId: TNullNumber) => {
     if (!id || !userId) {
       return;
     }
-    setResearch(researchs.filter((item) => item.id !== id && item.isBooking));
-    toResearch(id, userId);
+    const circle = await toResearch(id, userId);
+    if (circle) {
+      setResearch(
+        researchs.map((item) =>
+          item.endoscopeId === circle.endoscopeId
+            ? {
+                ...item,
+                ...circle,
+              }
+            : { ...item }
+        )
+      );
+    }
   };
   const renderBooking = () => {
     if (researchs.length > 0) {
@@ -61,7 +75,11 @@ const Booked = ({
         }
       });
     }
-    return <h2>У вас нет забронированных эндоскопов</h2>;
+    return (
+      <h2 className="text-center text-xl">
+        У вас нет забронированных эндоскопов
+      </h2>
+    );
   };
 
   return <>{renderBooking()}</>;

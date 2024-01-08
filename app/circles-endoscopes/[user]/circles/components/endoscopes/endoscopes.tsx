@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { Button } from "@nextui-org/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Booked, CleaningF, CleaningMch, CleaningMl, ResearchU } from "..";
-import { EndoscopesProps } from "@/app/(site)/interfaces.props";
+import { EndoscopesProps } from "@/app/interfaces.props";
 
 export default function Endoscopes({
   user,
@@ -31,45 +31,27 @@ export default function Endoscopes({
     (filtered: string) => {
       switch (filtered) {
         case "booking":
-          return (
-            <div className="grid grid-cols-2 gap-4 content-center">
-              {<Booked {...{ researchs, name, toResearch, setResearch }} />}
-            </div>
-          );
+          return <Booked {...{ researchs, name, toResearch, setResearch }} />;
         case "reserch":
           return (
-            <div className="grid grid-cols-2 gap-4 content-center">
-              {<ResearchU {...{ researchs, name, toCleaning, setResearch }} />}
-            </div>
+            <ResearchU {...{ researchs, name, toCleaning, setResearch }} />
           );
         case "cleaning":
           return (
-            <div className="grid grid-cols-2 gap-4 content-center">
-              {
-                <CleaningF
-                  {...{
-                    researchs,
-                    name,
-                    toEndWashingMch,
-                    toEndWashingMl,
-                    setResearch,
-                  }}
-                />
-              }
-            </div>
+            <CleaningF
+              {...{
+                researchs,
+                name,
+                toEndWashingMch,
+                toEndWashingMl,
+                setResearch,
+              }}
+            />
           );
         case "machine_cleaning":
-          return (
-            <div className="grid grid-cols-2 gap-4 content-center">
-              {<CleaningMch {...{ researchs, name, toStore, setResearch }} />}
-            </div>
-          );
+          return <CleaningMch {...{ researchs, name, toStore, setResearch }} />;
         case "manual_cleaning":
-          return (
-            <div className="grid grid-cols-2 gap-4 content-center">
-              {<CleaningMl {...{ researchs, name, toStore, setResearch }} />}
-            </div>
-          );
+          return <CleaningMl {...{ researchs, name, toStore, setResearch }} />;
 
         default:
           break;
@@ -99,7 +81,9 @@ export default function Endoscopes({
           </Button>
         ))}
       </div>
-      {renderBoby(filteredEnd)}
+      <div className="flex flex-col md:flex-row gap-4 content-center">
+        {renderBoby(filteredEnd)}
+      </div>
     </>
   );
 }

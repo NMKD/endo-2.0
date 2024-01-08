@@ -14,9 +14,18 @@ export interface UserSlice {
 
 export interface EndoscopesProps {
   user: UserProps;
-  toCleaning: (id: TNullString, endId: TNullNumber) => Promise<void>;
+  toCleaning: (pcId: TNullString) => Promise<Circle | undefined>;
   toStore: (id: TNullString) => Promise<void>;
-  toEndWashingMch: (id: TNullString, idp: TNullNumber) => Promise<void>;
-  toEndWashingMl: (id: TNullString, idp: TNullNumber) => Promise<void>;
-  toResearch: (endId: TNullNumber, userId: TNullNumber) => Promise<void>;
+  toEndWashingMch: (
+    id: TNullString,
+    idp: TNullNumber
+  ) => Promise<Circle | undefined>;
+  toEndWashingMl: (
+    id: TNullString,
+    idp: TNullNumber
+  ) => Promise<Circle | undefined>;
+  toResearch: (
+    id: TNullNumber,
+    userId: TNullNumber
+  ) => Promise<Circle | undefined>;
 }

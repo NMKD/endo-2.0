@@ -1,4 +1,4 @@
-import { TNullString, TNullNumber } from "@/app/(site)/interfaces.props";
+import { TNullString, TNullNumber } from "@/app/interfaces.props";
 import { formatDateToTimeLocal } from "@/lib/utils";
 import {
   Card,
@@ -23,22 +23,49 @@ const CleaningF = ({
   toEndWashingMch: (
     id: TNullString,
     historyResearchId: TNullNumber
-  ) => Promise<void>;
+  ) => Promise<Circle | undefined>;
   toEndWashingMl: (
     id: TNullString,
     historyResearchId: TNullNumber
-  ) => Promise<void>;
+  ) => Promise<Circle | undefined>;
 }) => {
-  const onClickButtonMch = (
-    id: TNullString,
-    historyResearchId: TNullNumber
+  const onClickButtonMch = async (
+    patientId: TNullString,
+    historyResearchId: TNullNumber,
+    endoscopeId: TNullNumber
   ) => {
-    setResearch(researchs.filter((item) => item.patientId !== id));
-    toEndWashingMch(id, historyResearchId);
+    const circle = await toEndWashingMch(patientId, historyResearchId);
+    if (circle) {
+      setResearch(
+        researchs.map((item) =>
+          item.endoscopeId === endoscopeId
+            ? {
+                ...item,
+                ...circle,
+              }
+            : { ...item }
+        )
+      );
+    }
   };
-  const onClickButtonMl = (id: TNullString, historyResearchId: TNullNumber) => {
-    setResearch(researchs.filter((item) => item.patientId !== id));
-    toEndWashingMl(id, historyResearchId);
+  const onClickButtonMl = async (
+    patientId: TNullString,
+    historyResearchId: TNullNumber,
+    endoscopeId: TNullNumber
+  ) => {
+    const circle = await toEndWashingMl(patientId, historyResearchId);
+    if (circle) {
+      setResearch(
+        researchs.map((item) =>
+          item.endoscopeId === endoscopeId
+            ? {
+                ...item,
+                ...circle,
+              }
+            : { ...item }
+        )
+      );
+    }
   };
   const renderCleaning = () => {
     if (researchs.length > 0) {
@@ -72,14 +99,22 @@ const CleaningF = ({
                 <div className="flex flex-wrap gap-4 items-center justify-start">
                   <Button
                     onClick={() =>
-                      onClickButtonMl(item.patientId, item.historyResearchId)
+                      onClickButtonMl(
+                        item.patientId,
+                        item.historyResearchId,
+                        item.endoscopeId
+                      )
                     }
                   >
                     Ручная мойка
                   </Button>
                   <Button
                     onClick={() =>
-                      onClickButtonMch(item.patientId, item.historyResearchId)
+                      onClickButtonMch(
+                        item.patientId,
+                        item.historyResearchId,
+                        item.endoscopeId
+                      )
                     }
                   >
                     Машинная мойка
@@ -92,9 +127,8 @@ const CleaningF = ({
       });
     }
     return (
-      <h2>
-        Для того чтобы начать финальную очистку. Перейдите на вкладку -
-        исследование и продолжите цикл
+      <h2 className="text-center text-xl">
+        У вас нет эндоскопов на этапе окончательной очистки
       </h2>
     );
   };

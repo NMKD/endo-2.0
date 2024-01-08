@@ -1,4 +1,4 @@
-import { TNullString, TNullNumber } from "@/app/(site)/interfaces.props";
+import { TNullNumber, TNullString } from "@/app/interfaces.props";
 import {
   Card,
   CardHeader,
@@ -17,14 +17,23 @@ const ResearchU = ({
 }: {
   researchs: Circle[];
   name: string;
-  toCleaning: (pcId: TNullString, endId: TNullNumber) => Promise<void>;
+  toCleaning: (pcId: TNullString) => Promise<Circle | undefined>;
   setResearch: (arr: Circle[]) => void;
 }) => {
-  const onClickButton = (pcId: TNullString, endId: TNullNumber) => {
-    setResearch(
-      researchs.filter((item) => item.patientId !== pcId && item.isResearch)
-    );
-    toCleaning(pcId, endId);
+  const onClickButton = async (pcId: TNullString, endId: TNullNumber) => {
+    const circle = await toCleaning(pcId);
+    if (circle) {
+      setResearch(
+        researchs.map((item) =>
+          item.endoscopeId === endId
+            ? {
+                ...item,
+                ...circle,
+              }
+            : { ...item }
+        )
+      );
+    }
   };
   const renderResearch = () => {
     if (researchs.length > 0) {
@@ -62,7 +71,11 @@ const ResearchU = ({
         }
       });
     }
-    return <h2>У вас нет эндоскопов на исследовании</h2>;
+    return (
+      <h2 className="text-center text-xl">
+        У вас нет эндоскопов на исследовании
+      </h2>
+    );
   };
   return <>{renderResearch()}</>;
 };
