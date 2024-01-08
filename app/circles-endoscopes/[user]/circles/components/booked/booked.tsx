@@ -1,4 +1,4 @@
-import { TNullNumber } from "@/app/(site)/interfaces.props";
+import { TNullNumber } from "@/app/interfaces.props";
 import {
   Card,
   CardHeader,

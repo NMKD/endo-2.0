@@ -24,7 +24,7 @@ function SignIn({
       return setMessageTag("Пользователь не зарегистрирован");
     }
     setMessageTag("Все получилось!");
-    router.push(`${siteConfig.routes.user}${user.id}/circles`);
+    router.push(`${siteConfig.routes.user}${user.id}`);
   }
 
   return (

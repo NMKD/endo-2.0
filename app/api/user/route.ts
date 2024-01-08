@@ -1,5 +1,5 @@
-import { getCurrentUser } from "@/lib/prisma.services";
 import { NextResponse } from "next/server";
+import { getCurrentUser } from "../../../lib/prisma.services";
 
 export const config = {
   api: {

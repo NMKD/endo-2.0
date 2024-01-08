@@ -12,7 +12,7 @@ import {
 } from "./prisma.services";
 import { Circle } from "@prisma/client";
 import { TNullNumber, TNullString } from "../app/interfaces.props";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export interface UserSlice {
   circles?: Circle[];
@@ -24,7 +24,7 @@ export interface UserSlice {
 
 export interface CircleUserSlice {
   user: UserSlice;
-  login: (userId: TNullNumber) => Promise<void>;
+  getUser: (userId: TNullNumber) => Promise<void>;
   createBooking: (endId: TNullNumber, userId: TNullNumber) => Promise<void>;
   createCleaningHistory: (
     pcId: TNullString,
@@ -58,9 +58,9 @@ export const createCircleUserSlice: StateCreator<CircleUserSlice> = (
     role: "",
     departmentId: 0,
   },
-  login: async (userId) => {
+  getUser: async (userId) => {
     // const user = await getCurrentUser(userId);
-    const user: AxiosResponse<UserSlice> = await axios.post("/api/user/", {
+    const user = await axios.post("/api/user/", {
       headers: {
         "Content-Type": "application/json",
       },

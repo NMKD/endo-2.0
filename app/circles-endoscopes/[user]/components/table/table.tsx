@@ -10,19 +10,26 @@ import {
   TableCell,
   Button,
 } from "@nextui-org/react";
-import { EndoscopeFormat, UserProps, columns } from "@/lib/interface.data";
-import { createBookingUser } from "@/lib/prisma.services";
+import { EndoscopeFormat, columns } from "@/lib/interface.data";
+import { Store } from "@prisma/client";
+import { useRouter } from "next/navigation";
 
 export default function TableData({
-  user,
+  paramsUserId,
   dataEndoscopes,
+  toBooking,
 }: {
-  user: UserProps;
+  paramsUserId: string;
   dataEndoscopes: EndoscopeFormat[];
+  toBooking: (endId: number, userId: number) => Promise<Store | undefined>;
 }) {
+  const router = useRouter();
   const onClickButton = useCallback(
-    (endId: number, userId: number | null) => createBookingUser(endId, userId),
-    []
+    async (endId: number, userId: number) => {
+      await toBooking(endId, userId);
+      router.refresh();
+    },
+    [router, toBooking]
   );
 
   const renderCell = useCallback(
@@ -34,7 +41,9 @@ export default function TableData({
             <div className="relative flex items-center gap-2">
               <Button
                 color="warning"
-                onClick={() => onClickButton(row.endoscopeId, user.id)}
+                onClick={() =>
+                  onClickButton(row.endoscopeId, Number(paramsUserId))
+                }
               >
                 Отправить
               </Button>
@@ -44,10 +53,10 @@ export default function TableData({
           return cellValue;
       }
     },
-    [onClickButton, user.id]
+    [onClickButton, paramsUserId]
   );
   return (
-    <Table aria-label="able of endoscope">
+    <Table aria-label="table of endoscope">
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.name}</TableColumn>}
       </TableHeader>
