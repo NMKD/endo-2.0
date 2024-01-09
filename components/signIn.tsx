@@ -23,8 +23,8 @@ function SignIn({
     if (!user) {
       return setMessageTag("Пользователь не зарегистрирован");
     }
-    setMessageTag("Все получилось!");
-    router.push(`${siteConfig.routes.user}${user.id}`);
+
+    router.push(`${siteConfig(user.id.toString()).routes.path}${user.id}`);
   }
 
   return (

@@ -1,31 +1,34 @@
 export type SiteConfig = typeof siteConfig;
 
-export const siteConfig = {
-  navItems: [
+export const siteConfig = (userId: string) =>
+  [
     {
-      label: "Эндоскопия",
-      href: "/circles-endoscopes/",
+      navItems: [
+        {
+          label: "Эндоскопия",
+          href: `/circles-endoscopes/${userId}/`,
+        },
+        {
+          label: "Мои эндоскопы",
+          href: `/circles-endoscopes/${userId}/circles`,
+        },
+      ],
+      navMenuItems: [
+        {
+          label: "Эндоскопия",
+          href: `/circles-endoscopes/${userId}/`,
+        },
+        {
+          label: "Мои эндоскопы",
+          href: `/circles-endoscopes/${userId}/circles`,
+        },
+        {
+          label: "Log out",
+          href: "/",
+        },
+      ],
+      routes: {
+        path: "/circles-endoscopes/",
+      },
     },
-    {
-      label: "Мои эндоскопы",
-      href: "/circles-endoscopes/",
-    },
-  ],
-  navMenuItems: [
-    {
-      label: "Эндоскопия",
-      href: "/circles-endoscopes/",
-    },
-    {
-      label: "Мои эндоскопы",
-      href: "/circles-endoscopes/",
-    },
-    {
-      label: "Log out",
-      href: "/",
-    },
-  ],
-  routes: {
-    user: "/circles-endoscopes/",
-  },
-};
+  ][0];

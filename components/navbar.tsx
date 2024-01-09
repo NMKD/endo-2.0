@@ -15,7 +15,7 @@ import { useState } from "react";
 import { siteConfig } from "@/config/site";
 import { usePathname } from "next/navigation";
 
-export const Navbar = () => {
+export const Navbar = ({ userId }: { userId: string }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
 
@@ -34,7 +34,7 @@ export const Navbar = () => {
           className="sm:hidden"
         />
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
+          {siteConfig(userId).navItems.map((item) => (
             <NavbarItem key={item.href} isActive={pathname === item.href}>
               <NextLink color="primary" href={item.href}>
                 {item.label}
@@ -49,7 +49,7 @@ export const Navbar = () => {
         </Button>
       </NavbarContent>
       <NavbarMenu>
-        {siteConfig.navMenuItems.map((item) => (
+        {siteConfig(userId).navMenuItems.map((item) => (
           <NavbarMenuItem key={`${item.label}`}>
             <Link
               color={pathname === item.href ? "primary" : "danger"}
