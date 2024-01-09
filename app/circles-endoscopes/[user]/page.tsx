@@ -1,6 +1,6 @@
+import { Suspense } from "react";
 import Loader from "@/components/loader";
-import { EndoscopeFormat } from "@/lib/interface.data";
-
+import { IEndoscopeFormatTable, TFnToBooking } from "@/interfaces";
 import {
   fetchKinds,
   fetchManufacturers,
@@ -10,9 +10,7 @@ import {
 } from "@/lib/prisma.services";
 
 import { formatDataEndoscopes } from "@/lib/utils";
-import { Suspense } from "react";
 import TableData from "./components/table/table";
-import { Store } from "@prisma/client";
 
 export default async function EndoscopesPage({
   params,
@@ -24,17 +22,14 @@ export default async function EndoscopesPage({
   const kinds = await fetchKinds();
   const manufacturers = await fetchManufacturers();
 
-  const dataEndoscopes: EndoscopeFormat[] = formatDataEndoscopes(
+  const dataEndoscopes: IEndoscopeFormatTable[] = formatDataEndoscopes(
     departments,
     endoscopes,
     kinds,
     manufacturers
   );
 
-  const toBooking = async (
-    endId: number,
-    userId: number
-  ): Promise<Store | undefined> => {
+  const toBooking: TFnToBooking = async (endId, userId) => {
     "use server";
     console.log(`booking... user id: ${userId}, endoscope id: ${endId}`);
     const store = await createBookingUser(endId, userId);

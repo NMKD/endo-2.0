@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Suspense } from "react";
 import {
   createCleaning,
   createCleaningMachine,
@@ -8,10 +8,15 @@ import {
   getCurrentUser,
 } from "@/lib/prisma.services";
 import { Endoscopes } from "./components";
-import { Suspense } from "react";
 import Loader from "@/components/loader";
-import { TNullNumber, TNullString } from "../../../interfaces.props";
-import { Circle } from "@prisma/client";
+
+import {
+  TFnToCleaning,
+  TFnToEndWashingMch,
+  TFnToEndWashingMl,
+  TFnToResearch,
+  TFnToStore,
+} from "@/interfaces";
 
 export default async function EndoscopesOfUserPage({
   params,
@@ -20,43 +25,31 @@ export default async function EndoscopesOfUserPage({
 }) {
   const user = await getCurrentUser(Number(params.user));
 
-  const toResearch = async (
-    id: TNullNumber,
-    userId: TNullNumber
-  ): Promise<Circle | undefined> => {
+  const toResearch: TFnToResearch = async (id, userId) => {
     "use server";
     console.log(`id endoscope: ${id}`, `user id: ${userId}`);
-    const circlesUser = await createResearch(id, userId);
-    if (circlesUser) {
-      return circlesUser;
-    }
+    return await createResearch(id, userId);
   };
-  const toCleaning = async (pcId: TNullString): Promise<Circle | undefined> => {
+  const toCleaning: TFnToCleaning = async (pcId) => {
     "use server";
     console.log(`Create history of final cleaning, patient id: ${pcId}`);
     return await createCleaning(pcId);
   };
-  const toEndWashingMch = async (
-    id: TNullString,
-    idh: TNullNumber
-  ): Promise<Circle | undefined> => {
+  const toEndWashingMch: TFnToEndWashingMch = async (id, idh) => {
     "use server";
     console.log(
       `createCleaningManual, patient id: ${id}, History Research ID ${idh}`
     );
     return await createCleaningMachine(id, idh);
   };
-  const toEndWashingMl = async (
-    id: TNullString,
-    idh: TNullNumber
-  ): Promise<Circle | undefined> => {
+  const toEndWashingMl: TFnToEndWashingMl = async (id, idh) => {
     "use server";
     console.log(
       `toEndWashingMch, patient id: ${id} , History Research ID ${idh}`
     );
     return await createCleaningManual(id, idh);
   };
-  const toStore = async (id: TNullString): Promise<void> => {
+  const toStore: TFnToStore = async (id) => {
     "use server";
     console.log(`To end circle, endoscope ID: ${id}`);
     await createStore(id);

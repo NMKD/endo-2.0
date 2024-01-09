@@ -1,4 +1,3 @@
-import { TNullNumber } from "@/app/interfaces.props";
 import {
   Card,
   CardHeader,
@@ -7,6 +6,7 @@ import {
   CardFooter,
   Button,
 } from "@nextui-org/react";
+import { TFnToResearch, TNullNumber } from "@/interfaces";
 import { Circle } from "@prisma/client";
 
 const Booked = ({
@@ -17,10 +17,7 @@ const Booked = ({
 }: {
   researchs: Circle[];
   name: string;
-  toResearch: (
-    id: TNullNumber,
-    userId: TNullNumber
-  ) => Promise<Circle | undefined>;
+  toResearch: TFnToResearch;
   setResearch: (arr: Circle[]) => void;
 }) => {
   const onClickButton = async (id: TNullNumber, userId: TNullNumber) => {

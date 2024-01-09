@@ -12,15 +12,16 @@ import {
   TFnToEndWashingMch,
   TFnToEndWashingMl,
   TFnToResearch,
+  TFnToBooking,
 } from "./props/props";
 import { columns } from "./table/columns";
 
-// columns of table and extension prisma servises
-export { columns, IHistoryResearch, IEndoscopeFormatTable, ICirclesOfUser };
-// data of props
-export { IEndoscopesProps };
-// types of props
-export {
+export { columns };
+export type {
+  IHistoryResearch,
+  IEndoscopeFormatTable,
+  ICirclesOfUser,
+  IEndoscopesProps,
   TNullNumber,
   TNullString,
   TFnToCleaning,
@@ -28,4 +29,5 @@ export {
   TFnToEndWashingMch,
   TFnToEndWashingMl,
   TFnToResearch,
+  TFnToBooking,
 };

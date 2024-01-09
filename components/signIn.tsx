@@ -1,14 +1,14 @@
 "use client";
-import { UserSlice } from "@/app/interfaces.props";
+import { useState } from "react";
 import { siteConfig } from "@/config/site";
 import { Button, Input } from "@nextui-org/react";
+import { ICirclesOfUser } from "@/interfaces";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 function SignIn({
   getUser,
 }: {
-  getUser: (id: number) => Promise<UserSlice | null>;
+  getUser: (id: number) => Promise<ICirclesOfUser | null>;
 }) {
   const router = useRouter();
   const [messageTag, setMessageTag] = useState("");

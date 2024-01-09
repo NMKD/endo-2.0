@@ -1,5 +1,3 @@
-import { TNullString, TNullNumber } from "@/app/interfaces.props";
-import { formatDateToTimeLocal } from "@/lib/utils";
 import {
   Card,
   CardHeader,
@@ -9,6 +7,13 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Circle } from "@prisma/client";
+import {
+  TFnToEndWashingMch,
+  TFnToEndWashingMl,
+  TNullNumber,
+  TNullString,
+} from "@/interfaces";
+import { formatDateToTimeLocal } from "@/lib/utils";
 
 const CleaningF = ({
   researchs,
@@ -20,14 +25,8 @@ const CleaningF = ({
   researchs: Circle[];
   setResearch: (arr: Circle[]) => void;
   name: string;
-  toEndWashingMch: (
-    id: TNullString,
-    historyResearchId: TNullNumber
-  ) => Promise<Circle | undefined>;
-  toEndWashingMl: (
-    id: TNullString,
-    historyResearchId: TNullNumber
-  ) => Promise<Circle | undefined>;
+  toEndWashingMch: TFnToEndWashingMch;
+  toEndWashingMl: TFnToEndWashingMl;
 }) => {
   const onClickButtonMch = async (
     patientId: TNullString,

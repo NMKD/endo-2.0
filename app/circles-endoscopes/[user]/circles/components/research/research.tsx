@@ -1,4 +1,3 @@
-import { TNullNumber, TNullString } from "@/app/interfaces.props";
 import {
   Card,
   CardHeader,
@@ -8,6 +7,7 @@ import {
   Button,
 } from "@nextui-org/react";
 import { Circle } from "@prisma/client";
+import { TFnToCleaning, TNullNumber, TNullString } from "@/interfaces";
 
 const ResearchU = ({
   researchs,
@@ -17,7 +17,7 @@ const ResearchU = ({
 }: {
   researchs: Circle[];
   name: string;
-  toCleaning: (pcId: TNullString) => Promise<Circle | undefined>;
+  toCleaning: TFnToCleaning;
   setResearch: (arr: Circle[]) => void;
 }) => {
   const onClickButton = async (pcId: TNullString, endId: TNullNumber) => {

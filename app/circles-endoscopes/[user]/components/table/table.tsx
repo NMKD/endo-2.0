@@ -10,9 +10,8 @@ import {
   TableCell,
   Button,
 } from "@nextui-org/react";
-import { EndoscopeFormat, columns } from "@/lib/interface.data";
-import { Store } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { IEndoscopeFormatTable, TFnToBooking, columns } from "@/interfaces";
 
 export default function TableData({
   paramsUserId,
@@ -20,8 +19,8 @@ export default function TableData({
   toBooking,
 }: {
   paramsUserId: string;
-  dataEndoscopes: EndoscopeFormat[];
-  toBooking: (endId: number, userId: number) => Promise<Store | undefined>;
+  dataEndoscopes: IEndoscopeFormatTable[];
+  toBooking: TFnToBooking;
 }) {
   const router = useRouter();
   const onClickButton = useCallback(

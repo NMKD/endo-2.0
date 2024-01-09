@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import { Button } from "@nextui-org/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Booked, CleaningF, CleaningMch, CleaningMl, ResearchU } from "..";
-import { EndoscopesProps } from "@/app/interfaces.props";
+import { IEndoscopesProps } from "@/interfaces";
 
 export default function Endoscopes({
   user,
@@ -12,7 +11,7 @@ export default function Endoscopes({
   toStore,
   toEndWashingMch,
   toEndWashingMl,
-}: EndoscopesProps) {
+}: IEndoscopesProps) {
   const { circles, name } = user;
 
   const [filteredEnd, setFilteredEnd] = useState("booking");

@@ -1,5 +1,3 @@
-import { TNullString } from "@/app/interfaces.props";
-import { formatDateToTimeLocal } from "@/lib/utils";
 import {
   Card,
   CardHeader,
@@ -8,6 +6,8 @@ import {
   CardFooter,
   Button,
 } from "@nextui-org/react";
+import { formatDateToTimeLocal } from "@/lib/utils";
+import { TFnToStore, TNullString } from "@/interfaces";
 import { Circle } from "@prisma/client";
 
 const CleaningMl = ({
@@ -18,7 +18,7 @@ const CleaningMl = ({
 }: {
   researchs: Circle[];
   name: string;
-  toStore: (id: TNullString) => Promise<void>;
+  toStore: TFnToStore;
   setResearch: (arr: Circle[]) => void;
 }) => {
   const onClickButton = (id: TNullString) => {

@@ -1,4 +1,4 @@
-import { Circle } from "@prisma/client";
+import { Circle, Store } from "@prisma/client";
 import { ICirclesOfUser } from "..";
 
 // types for data
@@ -18,6 +18,10 @@ export type TFnToResearch = (
   id: TNullNumber,
   userId: TNullNumber
 ) => Promise<Circle | undefined>;
+export type TFnToBooking = (
+  endId: number,
+  userId: number
+) => Promise<Store | undefined>;
 
 export interface IEndoscopesProps {
   user: ICirclesOfUser;
