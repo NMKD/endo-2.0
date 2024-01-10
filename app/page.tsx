@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/lib/prisma.services";
-import SignIn from "../components/signIn";
 import { ICirclesOfUser } from "@/interfaces";
+import SignIn from "@/components/forms/signIn";
 
 export default function Home() {
   async function getUser(id: number): Promise<ICirclesOfUser | null> {
