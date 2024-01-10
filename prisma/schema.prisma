@@ -72,7 +72,7 @@ model Facility {
 model HistoryResearch {
   id              Int                      @id @default(autoincrement())
   date_research   DateTime                 @default(now())
-  patientId       String                   @unique
+  patientId       String
   endoscope       Endoscope                @relation(fields: [endoscopeId], references: [id])
   endoscopeId     Int
   transactions    Boolean
@@ -101,7 +101,7 @@ model HistoryManualCleaning {
   temperature           Int
   solutionConcentration String
   start_time            DateTime         @default(now())
-  end_time              DateTime         @updatedAt
+  end_time              DateTime
   facilityId            Int?
   historyResearch       HistoryResearch? @relation(fields: [historyResearchId], references: [id])
   historyResearchId     Int?
@@ -111,9 +111,8 @@ model HistoryMachineCleaning {
   id                    Int              @id @default(autoincrement())
   solutionConcentration String
   numberMdm             Int
-  circle                DateTime         @updatedAt
   start_time            DateTime         @default(now())
-  end_time              DateTime         @updatedAt
+  end_time              DateTime
   processingMode        Int
   facilityId            Int?
   historyResearch       HistoryResearch? @relation(fields: [historyResearchId], references: [id])

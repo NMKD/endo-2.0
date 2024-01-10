@@ -1,3 +1,4 @@
-import TableJournal from "./table/table";
+import TableJournal from "./table/table-journal";
+import TableResearch from "./table/tableResearch";
 
-export { TableJournal };
+export { TableJournal, TableResearch };

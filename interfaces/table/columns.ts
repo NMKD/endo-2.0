@@ -11,16 +11,6 @@ export enum EnumColumnKeys {
   action = "action",
 }
 
-// export type ColumnKeys =
-//   | "name"
-//   | "endoscopeId"
-//   | "name_manufacturer"
-//   | "date_start"
-//   | "number_store"
-//   | "name_kind"
-//   | "name_department"
-//   | "action";
-
 export const columns = [
   {
     name: "Эндоскоп",

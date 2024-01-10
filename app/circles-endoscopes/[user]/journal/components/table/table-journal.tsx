@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import {
-  Table,
-  TableHeader,
-  TableColumn,
-  TableBody,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
+import { IHistoryResearch } from "@/interfaces";
+import { TableResearch } from "..";
 
 // const nameResearch = "Исследования";
 // const nameClearing = "Предварительная мойка";
@@ -129,13 +122,6 @@ import {
 //   },
 // };
 
-// const reportManualClearing = [...report].filter(
-//   (item) => item.manual_clearing
-// );
-// const reportMachineCleaning = [...report].filter(
-//   (item) => item.machine_cleaning
-// );
-
 // const report_research =
 //   reportManualClearing.length > 0 &&
 //   [...reportManualClearing].map((item) => ({
@@ -226,28 +212,23 @@ import {
 //   </>
 // );
 
-export default function TableJournal({ data }) {
+export default function TableJournal({ data }: { data: IHistoryResearch[] }) {
+  const renderTable = (obj: IHistoryResearch) => {
+    return (Object.keys(obj) as Array<keyof IHistoryResearch>).map((key) => {
+      // const value = obj[key];
+      switch (key) {
+        case "cleaning":
+          return <div>jhbjhbkb</div>;
+        default:
+          return;
+      }
+    });
+  };
   console.log(data);
   return (
-    // <Table
-    //   aria-label="static data"
-    //   color="success"
-    //   selectionMode="single"
-    //   defaultSelectedKeys={["2"]}
-    // >
-    //   <TableHeader columns={columns}>
-    //     {(column) => <TableColumn key={column.key}>{column.name}</TableColumn>}
-    //   </TableHeader>
-    //   <TableBody items={data} emptyContent={"Нет записей в журнале"}>
-    //     {(row) => (
-    //       <TableRow key={row.id}>
-    //         {(columnKey) => (
-    //           <TableCell>{getKeyValue(row, columnKey)}</TableCell>
-    //         )}
-    //       </TableRow>
-    //     )}
-    //   </TableBody>
-    // </Table>
-    <>Table</>
+    <div>
+      <TableResearch {...{ data }} />
+      {data.map((item) => renderTable(item))}
+    </div>
   );
 }
