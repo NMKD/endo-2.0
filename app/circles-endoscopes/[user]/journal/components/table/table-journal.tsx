@@ -1,21 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
 import {
-  // Cell,
+  Cell,
   Column,
   Row,
   Table,
-  // TableBody,
+  TableBody,
   TableHeader,
 } from "react-aria-components";
 import { Key } from "@react-types/shared";
 import React from "react";
 
-export default function TableJournal({ data }: { data: Array<unknown> }) {
-  // const columnsType = typeof columns;
-  // const rowsType = typeof rows;
-  console.log(data);
+export default function TableJournal({
+  data,
+}: {
+  data: Array<{
+    research: {
+      researchId: number;
+      patientId: string;
+      userId: number | null;
+      endoscopeId: number;
+      test: string;
+      date_research: string;
+    };
+    cleaning: any;
+    manualCleaning: any;
+    machineCleaning: any;
+  }>;
+}) {
+  const renderCell = (item: any) =>
+    Object.values(item).map((value: any) => <Cell key={value}>{value}</Cell>);
   const renderColumnValue = (
     item: { name: string; key: string },
     columnKey: Key
@@ -31,11 +47,23 @@ export default function TableJournal({ data }: { data: Array<unknown> }) {
             {item.name}
           </Column>
         );
-        break;
 
       default:
         break;
     }
+  };
+
+  const renderBodyValue = () => {
+    return data.map((row) =>
+      Object.keys(row).map((key) => {
+        switch (key) {
+          case "research":
+            return <Row key={row[key]}>{renderCell(row[key])}</Row>;
+          default:
+            break;
+        }
+      })
+    );
   };
 
   return (
@@ -73,6 +101,7 @@ export default function TableJournal({ data }: { data: Array<unknown> }) {
               )
             )}
           </TableHeader>
+          <TableBody>{renderBodyValue()}</TableBody>
         </Table>
       </div>
     </div>
