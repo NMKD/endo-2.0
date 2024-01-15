@@ -24,7 +24,7 @@ export default function TableJournal({ data }: { data: Array<unknown> }) {
     <div>
       <h1 className="text-2xl">Журнал регистрации</h1>
       <div className="relative overflow-x-auto  shadow-md rounded-md">
-        <Table>
+        {/* <Table>
           <TableHeader columns={ColumnsResearch}>
             {(column) => (
               <TableColumn key={column.key}>{column.name}</TableColumn>
@@ -39,6 +39,9 @@ export default function TableJournal({ data }: { data: Array<unknown> }) {
               </TableRow>
             )}
           </TableBody>
+        </Table> */}
+        <Table>
+          {data.}
         </Table>
       </div>
     </div>
