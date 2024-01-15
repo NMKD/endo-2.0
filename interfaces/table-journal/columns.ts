@@ -104,7 +104,7 @@ export const ColumnsResearch = {
       key: JournalColumnKeys.start_time,
     },
     {
-      name: "Время окончания окончания",
+      name: "Время окончания",
       key: JournalColumnKeys.end_time,
     },
     {
