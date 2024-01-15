@@ -30,6 +30,9 @@ export default function TableJournal({
     machineCleaning: any;
   }>;
 }) {
+  const columns = Object.keys(ColumnsResearch) as Array<
+    keyof typeof ColumnsResearch
+  >;
   const renderCell = (item: any) =>
     Object.values(item).map((value: any) => <Cell key={value}>{value}</Cell>);
   const renderColumnValue = (
@@ -70,32 +73,12 @@ export default function TableJournal({
     <div>
       <h1 className="text-2xl">Журнал регистрации</h1>
       <div className="relative overflow-x-auto  shadow-md rounded-md">
-        {/* <Table>
-          <TableHeader columns={ColumnsResearch}>
-            {(column) => (
-              <TableColumn key={column.key}>{column.name}</TableColumn>
-            )}
-          </TableHeader>
-          <TableBody items={data}>
-            {(item) => (
-              <TableRow key={item}>
-                {(columnKey) => (
-                  <TableCell>{getKeyValue(item, columnKey)}</TableCell>
-                )}
-              </TableRow>
-            )}
-          </TableBody>
-        </Table> */}
         <Table
           aria-label="Files"
           className="w-full text-sm text-center rtl:text-right text-gray-100 dark:text-gray-200 my-8"
         >
           <TableHeader className="text-md text-gray-900 uppercase  bg-gray-50 ">
-            {(
-              Object.keys(ColumnsResearch) as Array<
-                keyof typeof ColumnsResearch
-              >
-            ).map((keyColumn) =>
+            {columns.map((keyColumn) =>
               Object.values(ColumnsResearch[keyColumn]).map((value) =>
                 renderColumnValue(value, keyColumn)
               )

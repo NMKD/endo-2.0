@@ -3,7 +3,7 @@ export enum Facility {
   concentration = "Концетрация раствора",
 }
 export enum JournalColumnKeys {
-  researchId = "id",
+  researchId = "researchId",
   patientId = "patientId",
   userId = "user",
   endoscopeId = "endoscopeId",
