@@ -3,33 +3,19 @@ export enum Facility {
   concentration = "Концетрация раствора",
 }
 export enum JournalColumnKeys {
-  id = "id",
+  researchId = "researchId",
   patientId = "patientId",
   userId = "user",
   endoscopeId = "endoscopeId",
   date_research = "date_research",
   test = "test",
-  facility = "facility",
+  name = "facility",
   start_time = "start_time",
   end_time = "end_time",
   numberMdm = "numberMdm",
   processingMode = "processingMode",
   temperature = "temperature",
-}
-
-export enum JournalValues {
-  id = "Номер исследования",
-  patientId = "Пациент",
-  userId = "Отвественный",
-  endoscopeId = "ID эндоскопа",
-  date_research = "Дата иследования",
-  test = "Тест на гермитичность",
-  facility = "Средство очистки",
-  start_time = "Время начала",
-  end_time = "Время окончания",
-  numberMdm = "Номер МДМ",
-  processingMode = "Номер режима обработки",
-  temperature = "Температура рабочего раствора",
+  solutionConcentration = "Кон-ция раствора и результат экспресс",
 }
 
 export type TColumnsReserch = typeof ColumnsResearch;
@@ -37,7 +23,7 @@ export type TColumnsReserch = typeof ColumnsResearch;
 export const ColumnsResearch = [
   {
     name: "Номер исследования",
-    key: JournalColumnKeys.id,
+    key: JournalColumnKeys.researchId,
   },
   {
     name: "Пациент",
@@ -58,5 +44,68 @@ export const ColumnsResearch = [
   {
     name: "Тест на гермитичность",
     key: JournalColumnKeys.test,
+  },
+
+  {
+    name: "Тест на качество",
+    key: JournalColumnKeys.test,
+  },
+  {
+    name: "Наименование средства",
+    key: JournalColumnKeys.name,
+  },
+  {
+    name: "Дата начала",
+    key: JournalColumnKeys.start_time,
+  },
+  {
+    name: "Время окончания",
+    key: JournalColumnKeys.end_time,
+  },
+
+  {
+    name: "Температура рабочего раствора",
+    key: JournalColumnKeys.temperature,
+  },
+  {
+    name: "Наименование средства",
+    key: JournalColumnKeys.name,
+  },
+  {
+    name: "Дата начала диз.выдержки",
+    key: JournalColumnKeys.start_time,
+  },
+  {
+    name: "Время окончания диз.выдержки",
+    key: JournalColumnKeys.end_time,
+  },
+
+  {
+    name: "Номер МДМ",
+    key: JournalColumnKeys.numberMdm,
+  },
+  {
+    name: "Номер режима обработки",
+    key: JournalColumnKeys.processingMode,
+  },
+  {
+    name: "Концетрация раствора",
+    key: JournalColumnKeys.solutionConcentration,
+  },
+  {
+    name: "Время начала",
+    key: JournalColumnKeys.start_time,
+  },
+  {
+    name: "Время окончания",
+    key: JournalColumnKeys.end_time,
+  },
+  {
+    name: "Отвественный",
+    key: JournalColumnKeys.userId,
+  },
+  {
+    name: "Наименование средства",
+    key: JournalColumnKeys.name,
   },
 ];

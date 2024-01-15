@@ -1,24 +1,19 @@
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
-import { IHistoryResearch } from "../../../../../../interfaces/extension/prisma.ext";
+import { IHistoryResearch } from "@/interfaces/index";
 import {
-  Table,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
   getKeyValue,
+  Table,
 } from "@nextui-org/react";
 
 function TableResearch({ data }: { data: IHistoryResearch[] }) {
   const columns = ColumnsResearch;
   return (
-    <Table
-      aria-label="static data"
-      color="success"
-      selectionMode="single"
-      defaultSelectedKeys={["2"]}
-    >
+    <Table color="success" selectionMode="single" defaultSelectedKeys={["2"]}>
       <TableHeader columns={columns}>
         {(column) => <TableColumn key={column.key}>{column.name}</TableColumn>}
       </TableHeader>
