@@ -50,6 +50,10 @@ export const ColumnsResearch = {
 
   cleaning: [
     {
+      name: "ID эндоскопа",
+      key: JournalColumnKeys.date_research,
+    },
+    {
       name: "Тест на качество",
       key: JournalColumnKeys.test,
     },
@@ -69,6 +73,10 @@ export const ColumnsResearch = {
 
   manual: [
     {
+      name: "ID эндоскопа",
+      key: JournalColumnKeys.date_research,
+    },
+    {
       name: "Температура рабочего раствора",
       key: JournalColumnKeys.temperature,
     },
@@ -87,6 +95,10 @@ export const ColumnsResearch = {
   ],
 
   machine: [
+    {
+      name: "ID эндоскопа",
+      key: JournalColumnKeys.date_research,
+    },
     {
       name: "Номер МДМ",
       key: JournalColumnKeys.numberMdm,

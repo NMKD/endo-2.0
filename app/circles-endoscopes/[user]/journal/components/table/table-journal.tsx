@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
+import React, { Key, useCallback } from "react";
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
 import {
-  Cell,
-  Column,
-  Row,
   Table,
   TableBody,
   TableHeader,
-} from "react-aria-components";
-import { Key } from "@react-types/shared";
-import React from "react";
-import _ from "lodash";
+  TableColumn,
+  TableRow,
+  TableCell,
+  getKeyValue,
+} from "@nextui-org/react";
 
 type TObjectDataProps = {
   research: {
@@ -28,54 +26,42 @@ type TObjectDataProps = {
   machineCleaning: any;
 };
 
-type TDataProps = Array<TObjectDataProps>;
-
-export default function TableJournal({ data }: { data: TDataProps }) {
-  const columns = Object.keys(ColumnsResearch) as Array<
+export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
+  const columnsKeys = Object.keys(ColumnsResearch) as Array<
     keyof typeof ColumnsResearch
   >;
 
-  const renderContent = (item, cell) => {
-    if (Array.isArray(item) && item.length === 0) {
-      return <Cell key={cell}>{""}</Cell>;
-    }
-    if (!item) {
-      return <Cell key={cell}>{""}</Cell>;
-    }
-    console.log(item);
-    return Object.values(item).map((cell) => <Cell key={cell}>{cell}</Cell>);
-  };
+  const renderBody = () =>
+    data.map((itemRow: any) =>
+      columnsKeys.map((key) => (
+        <TableBody items={itemRow[key]} key={itemRow}>
+          {(item) => (
+            <TableRow key={item}>
+              {(columnKey) => (
+                <TableCell key={item}>{getKeyValue(item, columnKey)}</TableCell>
+              )}
+            </TableRow>
+          )}
+        </TableBody>
+      ))
+    );
+
+  const renderColumn = () =>
+    columnsKeys.map((key, i) => (
+      <TableHeader key={key} columns={ColumnsResearch[key]}>
+        {(column) => (
+          <TableColumn key={`${column.key} ${i}`}>{column.name}</TableColumn>
+        )}
+      </TableHeader>
+    ));
 
   return (
     <div>
       <h1 className="text-2xl">Журнал регистрации</h1>
-      <div className="relative overflow-x-auto  shadow-md rounded-md">
-        <Table
-          aria-label="Files"
-          className="w-full text-sm text-center rtl:text-right text-gray-100 dark:text-gray-200 my-8"
-        >
-          <TableHeader className="text-md text-gray-900 uppercase  bg-gray-50 ">
-            {columns.map((keyColumn) =>
-              Object.values(ColumnsResearch[keyColumn]).map((itemCol) => (
-                <Column
-                  className="px-6 py-3"
-                  key={itemCol.key}
-                  isRowHeader={itemCol.key === "researchId"}
-                >
-                  {itemCol.name}
-                </Column>
-              ))
-            )}
-          </TableHeader>
-          <TableBody>
-            {data.map((item) => (
-              <Row key={item}>
-                {columns.map((key) => renderContent(item[key], key))}
-              </Row>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+      <Table aria-label="table of endoscope">
+        {renderColumn()}
+        {renderBody()}
+      </Table>
     </div>
   );
 }
