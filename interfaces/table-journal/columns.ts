@@ -9,13 +9,13 @@ export enum JournalColumnKeys {
   endoscopeId = "endoscopeId",
   date_research = "date_research",
   test = "test",
-  name = "facility",
+  name = "name",
   start_time = "start_time",
   end_time = "end_time",
   numberMdm = "numberMdm",
   processingMode = "processingMode",
   temperature = "temperature",
-  solutionConcentration = "Кон-ция раствора и результат экспресс",
+  concentration = "concentration"
 }
 
 export type TColumnsReserch = typeof ColumnsResearch;
@@ -35,11 +35,11 @@ export const ColumnsResearch = {
       key: JournalColumnKeys.userId,
     },
     {
-      name: "ID эндоскопа",
+      name: "Дата иследования",
       key: JournalColumnKeys.date_research,
     },
     {
-      name: "Дата иследования",
+      name: "ID эндоскопа",
       key: JournalColumnKeys.endoscopeId,
     },
     {
@@ -51,7 +51,7 @@ export const ColumnsResearch = {
   cleaning: [
     {
       name: "ID эндоскопа",
-      key: JournalColumnKeys.date_research,
+      key: JournalColumnKeys.endoscopeId,
     },
     {
       name: "Тест на качество",
@@ -74,7 +74,7 @@ export const ColumnsResearch = {
   manual: [
     {
       name: "ID эндоскопа",
-      key: JournalColumnKeys.date_research,
+      key: JournalColumnKeys.endoscopeId,
     },
     {
       name: "Температура рабочего раствора",
@@ -97,7 +97,7 @@ export const ColumnsResearch = {
   machine: [
     {
       name: "ID эндоскопа",
-      key: JournalColumnKeys.date_research,
+      key: JournalColumnKeys.endoscopeId,
     },
     {
       name: "Номер МДМ",
@@ -109,7 +109,7 @@ export const ColumnsResearch = {
     },
     {
       name: "Концетрация раствора",
-      key: JournalColumnKeys.solutionConcentration,
+      key: JournalColumnKeys.concentration,
     },
     {
       name: "Время начала",
