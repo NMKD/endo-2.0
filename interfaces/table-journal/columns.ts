@@ -5,7 +5,7 @@ export enum Facility {
 export enum JournalColumnKeys {
   researchId = "researchId",
   patientId = "patientId",
-  userId = "user",
+  userId = "userId",
   endoscopeId = "endoscopeId",
   date_research = "date_research",
   test = "test",

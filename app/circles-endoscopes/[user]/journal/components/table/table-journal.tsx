@@ -12,61 +12,38 @@ import {
 } from "react-aria-components";
 import { Key } from "@react-types/shared";
 import React from "react";
+import _ from "lodash";
 
-export default function TableJournal({
-  data,
-}: {
-  data: Array<{
-    research: {
-      researchId: number;
-      patientId: string;
-      userId: number | null;
-      endoscopeId: number;
-      test: string;
-      date_research: string;
-    };
-    cleaning: any;
-    manualCleaning: any;
-    machineCleaning: any;
-  }>;
-}) {
+type TObjectDataProps = {
+  research: {
+    researchId: number;
+    patientId: string;
+    userId: number | null;
+    endoscopeId: number;
+    test: string;
+    date_research: string;
+  };
+  cleaning: any;
+  manualCleaning: any;
+  machineCleaning: any;
+};
+
+type TDataProps = Array<TObjectDataProps>;
+
+export default function TableJournal({ data }: { data: TDataProps }) {
   const columns = Object.keys(ColumnsResearch) as Array<
     keyof typeof ColumnsResearch
   >;
-  const renderCell = (item: any) =>
-    Object.values(item).map((value: any) => <Cell key={value}>{value}</Cell>);
-  const renderColumnValue = (
-    item: { name: string; key: string },
-    columnKey: Key
-  ) => {
-    switch (columnKey) {
-      case "research":
-        return (
-          <Column
-            className="px-6 py-3"
-            key={item.key}
-            isRowHeader={item.key === "id"}
-          >
-            {item.name}
-          </Column>
-        );
 
-      default:
-        break;
+  const renderContent = (item, cell) => {
+    if (Array.isArray(item) && item.length === 0) {
+      return <Cell key={cell}>{""}</Cell>;
     }
-  };
-
-  const renderBodyValue = () => {
-    return data.map((row) =>
-      Object.keys(row).map((key) => {
-        switch (key) {
-          case "research":
-            return <Row key={row[key]}>{renderCell(row[key])}</Row>;
-          default:
-            break;
-        }
-      })
-    );
+    if (!item) {
+      return <Cell key={cell}>{""}</Cell>;
+    }
+    console.log(item);
+    return Object.values(item).map((cell) => <Cell key={cell}>{cell}</Cell>);
   };
 
   return (
@@ -79,12 +56,24 @@ export default function TableJournal({
         >
           <TableHeader className="text-md text-gray-900 uppercase  bg-gray-50 ">
             {columns.map((keyColumn) =>
-              Object.values(ColumnsResearch[keyColumn]).map((value) =>
-                renderColumnValue(value, keyColumn)
-              )
+              Object.values(ColumnsResearch[keyColumn]).map((itemCol) => (
+                <Column
+                  className="px-6 py-3"
+                  key={itemCol.key}
+                  isRowHeader={itemCol.key === "researchId"}
+                >
+                  {itemCol.name}
+                </Column>
+              ))
             )}
           </TableHeader>
-          <TableBody>{renderBodyValue()}</TableBody>
+          <TableBody>
+            {data.map((item) => (
+              <Row key={item}>
+                {columns.map((key) => renderContent(item[key], key))}
+              </Row>
+            ))}
+          </TableBody>
         </Table>
       </div>
     </div>
