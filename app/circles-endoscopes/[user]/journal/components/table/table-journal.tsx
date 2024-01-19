@@ -2,13 +2,11 @@
 "use client";
 
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
-import { SetStateAction, useState } from "react";
 import * as _ from "lodash";
 
 import {
   Cell,
   Column,
-  Key,
   Row,
   Table,
   TableBody,
@@ -20,12 +18,12 @@ interface IReserchCell {
   patientId: string;
   userId: number | string;
   endoscopeId: number;
-  test: boolean;
+  test: boolean | string;
   date_research: string;
 }
 
 interface ICleaningCell {
-  test: boolean;
+  test: boolean | string;
   name: string;
   userId: number | string;
   start_time: string;
@@ -57,40 +55,25 @@ interface TObjectDataProps {
   machineCleaning: IMachineCell;
 }
 
-type TCell = {
+type TColumns = {
   name: string;
   key: string;
 };
-
 type TKeysIterable = IReserchCell | ICleaningCell | IManualCell | IMachineCell;
 type TKeysIterableItem = "research" | "cleaning" | "manual" | "machine";
 
 export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
   const columnsKeys = Object.keys(ColumnsResearch) as TKeysIterableItem[];
 
-  const [cleaningKeys, setCleaning] = useState<SetStateAction<ICleaningCell>>({
-    test: false,
-    name: "",
-    userId: "",
-    start_time: "",
-    end_time: "",
-  });
-  const [manualKeys, setManual] = useState<SetStateAction<IManualCell>>({
-    temperature: "",
-    name: "",
-    userId: "",
-    start_time: "",
-    end_time: "",
-  });
-  const [machineKeys, setMachine] = useState<SetStateAction<IMachineCell>>({
-    numberMdm: "",
-    processingMode: "",
-    concentration: "",
-    userId: "",
-    name: "",
-    start_time: "",
-    end_time: "",
-  });
+  const itemCleaning = setState(ColumnsResearch.cleaning);
+  const itemManual = setState(ColumnsResearch.manual);
+  const itemMachine = setState(ColumnsResearch.machine);
+
+  function setState(arr: Array<TColumns>) {
+    const obj = {};
+    arr.forEach((item) => (obj[item.key] = ""));
+    return obj;
+  }
 
   const checkKeys = (keys: TKeysIterable) => {
     if (Array.isArray(keys)) {
@@ -120,16 +103,16 @@ export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
           case "cleaning":
             return checkKeys(item.cleaning)
               ? renderCell(item.cleaning, keyRow)
-              : renderCellEmpty(cleaningKeys, keyRow);
+              : renderCellEmpty(itemCleaning, keyRow);
           case "manual":
             return checkKeys(item.manualCleaning)
               ? renderCell(item.manualCleaning, keyRow)
-              : renderCellEmpty(manualKeys, keyRow);
+              : renderCellEmpty(itemManual, keyRow);
 
           case "machine":
             return checkKeys(item.machineCleaning)
               ? renderCell(item.machineCleaning, keyRow)
-              : renderCellEmpty(machineKeys, keyRow);
+              : renderCellEmpty(itemMachine, keyRow);
 
           default:
             break;
@@ -150,11 +133,10 @@ export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
       ))
     );
 
-  console.log(data);
   return (
     <div>
       <h1 className="text-2xl">Журнал регистрации</h1>
-      <Table>
+      <Table aria-label="Table journal">
         <TableHeader>{renderColumn()}</TableHeader>
         <TableBody>{data.map((item) => renderBody(item))}</TableBody>
       </Table>
