@@ -1,130 +1,162 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { Key, useCallback } from "react";
+
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
+import { SetStateAction, useState } from "react";
+import * as _ from "lodash";
+
 import {
+  Cell,
+  Column,
+  Key,
+  Row,
   Table,
   TableBody,
   TableHeader,
-  TableColumn,
-  TableRow,
-  TableCell,
-  getKeyValue,
-} from "@nextui-org/react";
+} from "react-aria-components";
 
-type TObjectDataProps = {
-  research: {
-    researchId: number;
-    patientId: string;
-    userId: number | null;
-    endoscopeId: number;
-    test: string;
-    date_research: string;
-  };
-  cleaning: any;
-  manualCleaning: any;
-  machineCleaning: any;
+interface IReserchCell {
+  researchId: number;
+  patientId: string;
+  userId: number | string;
+  endoscopeId: number;
+  test: boolean;
+  date_research: string;
+}
+
+interface ICleaningCell {
+  test: boolean;
+  name: string;
+  userId: number | string;
+  start_time: string;
+  end_time: string;
+}
+
+interface IManualCell {
+  temperature: string | number;
+  name: string;
+  userId: number | string;
+  start_time: string;
+  end_time: string;
+}
+
+interface IMachineCell {
+  numberMdm: string | number;
+  processingMode: string | number;
+  concentration: string | number;
+  userId: number | string;
+  name: string;
+  start_time: string;
+  end_time: string;
+}
+
+interface TObjectDataProps {
+  research: IReserchCell;
+  cleaning: ICleaningCell;
+  manualCleaning: IManualCell;
+  machineCleaning: IMachineCell;
+}
+
+type TCell = {
+  name: string;
+  key: string;
 };
 
+type TKeysIterable = IReserchCell | ICleaningCell | IManualCell | IMachineCell;
+type TKeysIterableItem = "research" | "cleaning" | "manual" | "machine";
+
 export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
-  // const columnsKeys = Object.keys(ColumnsResearch) as Array<
-  //   keyof typeof ColumnsResearch
-  // >;
+  const columnsKeys = Object.keys(ColumnsResearch) as TKeysIterableItem[];
 
-  // const renderBody = () =>
-  //   data.map((itemRow: any) =>
-  //     columnsKeys.map((key) => (
-  //       <TableBody items={itemRow[key]} key={itemRow}>
-  //         {(item) => (
-  //           <TableRow key={item}>
-  //             {(columnKey) => (
-  //               <TableCell key={item}>{getKeyValue(item, columnKey)}</TableCell>
-  //             )}
-  //           </TableRow>
-  //         )}
-  //       </TableBody>
-  //     ))
-  //   );
+  const [cleaningKeys, setCleaning] = useState<SetStateAction<ICleaningCell>>({
+    test: false,
+    name: "",
+    userId: "",
+    start_time: "",
+    end_time: "",
+  });
+  const [manualKeys, setManual] = useState<SetStateAction<IManualCell>>({
+    temperature: "",
+    name: "",
+    userId: "",
+    start_time: "",
+    end_time: "",
+  });
+  const [machineKeys, setMachine] = useState<SetStateAction<IMachineCell>>({
+    numberMdm: "",
+    processingMode: "",
+    concentration: "",
+    userId: "",
+    name: "",
+    start_time: "",
+    end_time: "",
+  });
 
-  // const renderColumn = () =>
-  //   columnsKeys.map((key, i) => (
-  //     <TableHeader key={key} columns={ColumnsResearch[key]}>
-  //       {(column) => (
-  //         <TableColumn key={`${column.key} ${i}`}>{column.name}</TableColumn>
-  //       )}
-  //     </TableHeader>
-  //   ));
+  const checkKeys = (keys: TKeysIterable) => {
+    if (Array.isArray(keys)) {
+      return keys.length === 0 ? false : true;
+    }
+    return !keys ? false : true;
+  };
+
+  const renderCell = (item: TKeysIterable, keyRow: TKeysIterableItem) =>
+    ColumnsResearch[keyRow].map((obj) => (
+      <Cell key={`${obj}`}>{_.get(item, obj.key)}</Cell>
+    ));
+
+  const renderCellEmpty = (item: TKeysIterable, keyRow: TKeysIterableItem) =>
+    ColumnsResearch[keyRow].map((obj) => (
+      <Cell key={`${obj}`}>{_.get(item, obj.key)}</Cell>
+    ));
+
+  const renderBody = (item: TObjectDataProps) => (
+    <Row key={item}>
+      {columnsKeys.map((keyRow) => {
+        switch (keyRow) {
+          case "research":
+            return (
+              checkKeys(item.research) && renderCell(item.research, keyRow)
+            );
+          case "cleaning":
+            return checkKeys(item.cleaning)
+              ? renderCell(item.cleaning, keyRow)
+              : renderCellEmpty(cleaningKeys, keyRow);
+          case "manual":
+            return checkKeys(item.manualCleaning)
+              ? renderCell(item.manualCleaning, keyRow)
+              : renderCellEmpty(manualKeys, keyRow);
+
+          case "machine":
+            return checkKeys(item.machineCleaning)
+              ? renderCell(item.machineCleaning, keyRow)
+              : renderCellEmpty(machineKeys, keyRow);
+
+          default:
+            break;
+        }
+      })}
+    </Row>
+  );
+
+  const renderColumn = () =>
+    columnsKeys.map((key) =>
+      ColumnsResearch[key].map((item) => (
+        <Column
+          key={`${ColumnsResearch[key]} ${item}`}
+          isRowHeader={item.key === "researchId"}
+        >
+          {item.name}
+        </Column>
+      ))
+    );
+
   console.log(data);
   return (
     <div>
       <h1 className="text-2xl">Журнал регистрации</h1>
-      <Table aria-label="table of endoscope">
-        <TableHeader columns={ColumnsResearch.research}>
-          {(column) => (
-            <TableColumn key={column.key}>{column.name}</TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={data}>
-          {(item) => (
-            <TableRow key={item.research}>
-              {(columnKey) => (
-                <TableCell>{getKeyValue(item.research, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <Table aria-label="table of endoscope">
-        <TableHeader columns={ColumnsResearch.cleaning}>
-          {(column) => (
-            <TableColumn key={column.key}>{column.name}</TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={data}>
-          {(item) => (
-            <TableRow key={item.cleaning}>
-              {(columnKey) => (
-                <TableCell>{getKeyValue(item.cleaning, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <Table aria-label="table of endoscope">
-        <TableHeader columns={ColumnsResearch.manual}>
-          {(column) => (
-            <TableColumn key={column.key}>{column.name}</TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={data}>
-          {(item) => (
-            <TableRow key={item.manualCleaning}>
-              {(columnKey) => (
-                <TableCell>
-                  {getKeyValue(item.manualCleaning, columnKey)}
-                </TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <Table aria-label="table of endoscope">
-        <TableHeader columns={ColumnsResearch.machine}>
-          {(column) => (
-            <TableColumn key={column.key}>{column.name}</TableColumn>
-          )}
-        </TableHeader>
-        <TableBody items={data}>
-          {(item) => (
-            <TableRow key={item.machineCleaning}>
-              {(columnKey) => (
-                <TableCell>
-                  {getKeyValue(item.machineCleaning, columnKey)}
-                </TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
+      <Table>
+        <TableHeader>{renderColumn()}</TableHeader>
+        <TableBody>{data.map((item) => renderBody(item))}</TableBody>
       </Table>
     </div>
   );
