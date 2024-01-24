@@ -21,12 +21,8 @@ import {
   TableHeader,
 } from "react-aria-components";
 
-export type TKeysIterable =
-  | IReserchCell
-  | ICleaningCell
-  | IManualCell
-  | IMachineCell;
-export type TKeysIterableItem = "research" | "cleaning" | "manual" | "machine";
+type TKeysIterable = IReserchCell | ICleaningCell | IManualCell | IMachineCell;
+type TKeysIterableItem = "research" | "cleaning" | "manual" | "machine";
 
 export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
   const columnsKeys = Object.keys(ColumnsResearch) as TKeysIterableItem[];
@@ -35,7 +31,7 @@ export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
   const itemManual = setState(ColumnsResearch.manual);
   const itemMachine = setState(ColumnsResearch.machine);
 
-  function setState(arr: Array<TColumns>) {
+  function setState(arr: Array<TColumns>): TKeysIterable {
     const obj = {};
     arr.forEach((item) => (obj[item.key] = ""));
     return obj;

@@ -1,4 +1,3 @@
-import { TKeysIterable } from "@/app/circles-endoscopes/[user]/journal/components/table/table-journal";
 import {
   IHistoryResearch,
   IEndoscopeFormatTable,
@@ -45,5 +44,4 @@ export type {
   IMachineCell,
   TObjectDataProps,
   TColumns,
-  TKeysIterable,
 };

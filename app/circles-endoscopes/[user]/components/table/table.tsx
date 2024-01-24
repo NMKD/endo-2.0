@@ -61,9 +61,7 @@ export default function TableData({
       </TableHeader>
       <TableBody
         items={dataEndoscopes}
-        emptyContent={
-          "Для отображения данных, добавьте в базу данных эндоскопы по ссылке ......"
-        }
+        emptyContent={"Нет данных или свободных эндоскопов ..."}
       >
         {(item) => (
           <TableRow key={item.id}>
