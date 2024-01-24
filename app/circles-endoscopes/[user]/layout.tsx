@@ -14,7 +14,7 @@ function Layout({
   return (
     <>
       <Navbar {...{ userId }} />
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 mb-unit-2xl">
         <div className="flex flex-row-reverse pt-8">
           <Button
             href={`${siteConfig(userId).routes.path}${params.user}/journal`}

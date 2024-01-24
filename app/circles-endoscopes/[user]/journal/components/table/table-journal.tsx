@@ -11,6 +11,7 @@ import {
 } from "@/interfaces";
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
 import * as _ from "lodash";
+import { useCallback } from "react";
 
 import {
   Cell,
@@ -33,10 +34,10 @@ const cssTable = {
 
   tbody: {
     tr: "bg-white border-b dark:bg-gray-800 dark:border-gray-700",
-    td: "p-4 font-medium text-gray-900",
+    td: "p-4 font-medium text-gray-900 dark:text-gray-400",
   },
   scrolling: "overflow-x-auto",
-  tableContainer: "",
+  tableContainer: "rounded-md",
 };
 
 export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
@@ -60,58 +61,62 @@ export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
   };
 
   const renderCell = (item: TKeysIterable, keyRow: TKeysIterableItem) =>
-    ColumnsResearch[keyRow].map((obj) => (
-      <Cell key={`${obj}`}>{_.get(item, obj.key)}</Cell>
-    ));
-
-  const renderCellEmpty = (item: TKeysIterable, keyRow: TKeysIterableItem) =>
-    ColumnsResearch[keyRow].map((obj) => (
-      <Cell className={cssTable.tbody.td} key={`${obj}`}>
+    ColumnsResearch[keyRow].map((obj, i) => (
+      <Cell className={cssTable.tbody.td} key={`${obj.key}-${i}`}>
         {_.get(item, obj.key)}
       </Cell>
     ));
 
-  const renderBody = (item: TObjectDataProps) => (
-    <Row className={cssTable.tbody.tr} key={item}>
-      {columnsKeys.map((keyRow) => {
-        switch (keyRow) {
-          case "research":
-            return (
-              checkKeys(item.research) && renderCell(item.research, keyRow)
-            );
-          case "cleaning":
-            return checkKeys(item.cleaning)
-              ? renderCell(item.cleaning, keyRow)
-              : renderCellEmpty(itemCleaning, keyRow);
-          case "manual":
-            return checkKeys(item.manualCleaning)
-              ? renderCell(item.manualCleaning, keyRow)
-              : renderCellEmpty(itemManual, keyRow);
+  const renderCellEmpty = (item: TKeysIterable, keyRow: TKeysIterableItem) =>
+    ColumnsResearch[keyRow].map((obj, i) => (
+      <Cell className={cssTable.tbody.td} key={`${obj.key}-${i}`}>
+        {_.get(item, obj.key)}
+      </Cell>
+    ));
 
-          case "machine":
-            return checkKeys(item.machineCleaning)
-              ? renderCell(item.machineCleaning, keyRow)
-              : renderCellEmpty(itemMachine, keyRow);
+  const renderBody = useCallback(
+    (item: TObjectDataProps) => (
+      <Row className={cssTable.tbody.tr} key={item.research.date_research}>
+        {columnsKeys.map((keyRow) => {
+          switch (keyRow) {
+            case "research":
+              return (
+                checkKeys(item.research) && renderCell(item.research, keyRow)
+              );
+            case "cleaning":
+              return checkKeys(item.cleaning)
+                ? renderCell(item.cleaning, keyRow)
+                : renderCellEmpty(itemCleaning, keyRow);
+            case "manual":
+              return checkKeys(item.manualCleaning)
+                ? renderCell(item.manualCleaning, keyRow)
+                : renderCellEmpty(itemManual, keyRow);
 
-          default:
-            break;
-        }
-      })}
-    </Row>
+            case "machine":
+              return checkKeys(item.machineCleaning)
+                ? renderCell(item.machineCleaning, keyRow)
+                : renderCellEmpty(itemMachine, keyRow);
+
+            default:
+              break;
+          }
+        })}
+      </Row>
+    ),
+    [columnsKeys, itemCleaning, itemMachine, itemManual]
   );
 
-  const renderColumn = () =>
-    columnsKeys.map((key) =>
-      ColumnsResearch[key].map((item) => (
-        <Column
-          className={cssTable.thead.th}
-          key={`${ColumnsResearch[key]} ${item}`}
-          isRowHeader={item.key === "researchId"}
-        >
-          {item.name}
-        </Column>
-      ))
-    );
+  const renderCol = useCallback((key: keyof typeof ColumnsResearch) => {
+    return ColumnsResearch[key].map((item, i) => (
+      <Column
+        className={cssTable.thead.th}
+        key={`${ColumnsResearch[key]} ${i}`}
+        isRowHeader={item.key === "researchId"}
+      >
+        {item.name}
+      </Column>
+    ));
+  }, []);
 
   return (
     <>
@@ -119,7 +124,7 @@ export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
       <div className={`${cssTable.scrolling} ${cssTable.tableContainer}`}>
         <Table aria-label="Table journal" className={cssTable.table}>
           <TableHeader className={cssTable.thead.head}>
-            {renderColumn()}
+            {columnsKeys.map((keyColumn) => renderCol(keyColumn))}
           </TableHeader>
           <TableBody>{data.map((item) => renderBody(item))}</TableBody>
         </Table>
