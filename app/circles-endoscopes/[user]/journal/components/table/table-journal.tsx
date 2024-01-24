@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import {
+  ICleaningCell,
+  IMachineCell,
+  IManualCell,
+  IReserchCell,
+  TColumns,
+  TObjectDataProps,
+} from "@/interfaces";
 import { ColumnsResearch } from "@/interfaces/table-journal/columns";
 import * as _ from "lodash";
 
@@ -13,54 +21,12 @@ import {
   TableHeader,
 } from "react-aria-components";
 
-interface IReserchCell {
-  researchId: number;
-  patientId: string;
-  userId: number | string;
-  endoscopeId: number;
-  test: boolean | string;
-  date_research: string;
-}
-
-interface ICleaningCell {
-  test: boolean | string;
-  name: string;
-  userId: number | string;
-  start_time: string;
-  end_time: string;
-}
-
-interface IManualCell {
-  temperature: string | number;
-  name: string;
-  userId: number | string;
-  start_time: string;
-  end_time: string;
-}
-
-interface IMachineCell {
-  numberMdm: string | number;
-  processingMode: string | number;
-  concentration: string | number;
-  userId: number | string;
-  name: string;
-  start_time: string;
-  end_time: string;
-}
-
-interface TObjectDataProps {
-  research: IReserchCell;
-  cleaning: ICleaningCell;
-  manualCleaning: IManualCell;
-  machineCleaning: IMachineCell;
-}
-
-type TColumns = {
-  name: string;
-  key: string;
-};
-type TKeysIterable = IReserchCell | ICleaningCell | IManualCell | IMachineCell;
-type TKeysIterableItem = "research" | "cleaning" | "manual" | "machine";
+export type TKeysIterable =
+  | IReserchCell
+  | ICleaningCell
+  | IManualCell
+  | IMachineCell;
+export type TKeysIterableItem = "research" | "cleaning" | "manual" | "machine";
 
 export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
   const columnsKeys = Object.keys(ColumnsResearch) as TKeysIterableItem[];
