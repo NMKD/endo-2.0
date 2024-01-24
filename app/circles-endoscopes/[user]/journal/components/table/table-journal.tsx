@@ -31,8 +31,8 @@ export default function TableJournal({ data }: { data: TObjectDataProps[] }) {
   const itemManual = setState(ColumnsResearch.manual);
   const itemMachine = setState(ColumnsResearch.machine);
 
-  function setState(arr: Array<TColumns>): TKeysIterable {
-    const obj = {};
+  function setState(arr: Array<TColumns>) {
+    const obj: Record<string, string | boolean | number> = {};
     arr.forEach((item) => (obj[item.key] = ""));
     return obj;
   }
