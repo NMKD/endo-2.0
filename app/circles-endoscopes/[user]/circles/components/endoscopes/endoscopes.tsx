@@ -24,6 +24,23 @@ export default function Endoscopes({
     "machine_cleaning",
     "manual_cleaning",
   ];
+  const nameButton = {
+    booking: {
+      name: "В работу",
+    },
+    reserch: {
+      name: "Исследования",
+    },
+    cleaning: {
+      name: "cleaning",
+    },
+    machine_cleaning: {
+      name: "Машинная мойка",
+    },
+    manual_cleaning: {
+      name: "Ручная мойка",
+    },
+  };
   const onClickButton = (name: string) => setFilteredEnd(name);
 
   const renderBoby = useCallback(

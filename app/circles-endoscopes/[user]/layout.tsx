@@ -14,19 +14,19 @@ function Layout({
   return (
     <>
       <Navbar {...{ userId }} />
-      <div className="flex flex-row-reverse pt-8">
-        <Button
-          href={`${siteConfig(userId).routes.path}${params.user}/journal`}
-          as={Link}
-          color="success"
-          showAnchorIcon
-          variant="solid"
-        >
-          Журнал регистрации
-        </Button>
-      </div>
-      <div className="flex flex-col items-center justify-center ">
-        {children}
+      <div className="container mx-auto px-4">
+        <div className="flex flex-row-reverse pt-8">
+          <Button
+            href={`${siteConfig(userId).routes.path}${params.user}/journal`}
+            as={Link}
+            color="success"
+            showAnchorIcon
+            variant="solid"
+          >
+            Журнал регистрации
+          </Button>
+        </div>
+        <div>{children}</div>
       </div>
     </>
   );

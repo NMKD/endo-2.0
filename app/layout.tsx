@@ -11,9 +11,7 @@ export default function RootLayout({
   return (
     <html lang="ru" className="dark">
       <body className={fontSans.variable}>
-        <Providers>
-          <div className="container">{children}</div>
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

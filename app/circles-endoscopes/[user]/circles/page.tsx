@@ -56,9 +56,11 @@ export default async function EndoscopesOfUserPage({
   };
   return (
     <main>
-      <div className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+      <div className="">
         <div>
-          <h1 className="text-2xl text-center font-bold">Трекинг эндоскопов</h1>
+          <h1 className="text-2xl text-center font-bold my-8">
+            Трекинг эндоскопов
+          </h1>
           <Suspense fallback={<Loader />}>
             {!user ? (
               <p>
