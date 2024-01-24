@@ -88,10 +88,7 @@ const CleaningF = ({
                     {formatDateToTimeLocal(item.dateStartCleaningFinal)}
                   </li>
                 </ul>
-                <p>
-                  Чтобы завершить цикл очистки. Нажмите кнопку &quot;Отпрвить на
-                  мойку&quot;
-                </p>
+                <p>Чтобы завершить цикл очистки. Выберите тип мойки.</p>
               </CardBody>
               <Divider />
               <CardFooter>

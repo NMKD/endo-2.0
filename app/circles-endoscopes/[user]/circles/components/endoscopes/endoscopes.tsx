@@ -17,13 +17,6 @@ export default function Endoscopes({
   const [filteredEnd, setFilteredEnd] = useState("booking");
   const [researchs, setResearch] = useState(circles);
 
-  const buttons = [
-    "booking",
-    "reserch",
-    "cleaning",
-    "machine_cleaning",
-    "manual_cleaning",
-  ];
   const nameButton = {
     booking: {
       name: "В работу",
@@ -32,7 +25,7 @@ export default function Endoscopes({
       name: "Исследования",
     },
     cleaning: {
-      name: "cleaning",
+      name: "Окончательная очистка",
     },
     machine_cleaning: {
       name: "Машинная мойка",
@@ -41,7 +34,12 @@ export default function Endoscopes({
       name: "Ручная мойка",
     },
   };
-  const onClickButton = (name: string) => setFilteredEnd(name);
+  const onClickButton = (name: string) => {
+    const btnKeyName = Object.keys(nameButton).find(
+      (keyButton) => keyButton === name
+    );
+    btnKeyName ? setFilteredEnd(btnKeyName) : setFilteredEnd("booking");
+  };
 
   const renderBoby = useCallback(
     (filtered: string) => {
@@ -87,17 +85,19 @@ export default function Endoscopes({
   return (
     <>
       <div className="flex flex-wrap gap-4 items-center justify-center my-5">
-        {buttons.map((index) => (
-          <Button
-            key={index}
-            onClick={() => onClickButton(index)}
-            color={index === filteredEnd ? "warning" : "primary"}
-          >
-            {index}
-          </Button>
-        ))}
+        {(Object.keys(nameButton) as Array<keyof typeof nameButton>).map(
+          (index) => (
+            <Button
+              key={index}
+              onClick={() => onClickButton(index)}
+              color={index === filteredEnd ? "warning" : "primary"}
+            >
+              {nameButton[index].name}
+            </Button>
+          )
+        )}
       </div>
-      <div className="flex flex-col md:flex-row gap-4 content-center">
+      <div className="flex flex-col gap-4 items-center">
         {renderBoby(filteredEnd)}
       </div>
     </>
